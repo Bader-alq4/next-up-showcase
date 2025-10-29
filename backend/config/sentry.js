@@ -1,10 +1,10 @@
 // config/sentry.js
 
-const Sentry = require('@sentry/node');
+const Sentry = require('@sentry/node')
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: process.env.NODE_ENV,
   tracesSampleRate: 0.1,
   sendDefaultPii: true,
-});
-module.exports = Sentry;
+})
+module.exports = Sentry
