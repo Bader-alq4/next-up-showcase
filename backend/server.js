@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
 // 4) Start server
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
-  logger.info({ port: PORT, env: process.env.NODE_ENV || 'development' }, 'API listening');
+  logger.info({port: PORT, env: process.env.NODE_ENV || 'development'}, 'API listening');
 });
   
 // 5) Process guards and graceful shutdown
@@ -47,8 +47,8 @@ const shutdown = async (code = 0) => {
     logger.info('Shutting down');
     await new Promise((r) => server.close(r));
     if (process.env.SENTRY_DSN) await Sentry.flush(2000);
-  } catch (e) {
-    logger.error({ err: e }, 'Error during shutdown');
+  } catch (err) {
+    logger.error({err}, 'Error during shutdown');
   } finally {
     logger.info('Server closed.');
     process.exit(code);
@@ -59,13 +59,13 @@ process.on('SIGTERM', () => shutdown(0));
 process.on('SIGINT', () => shutdown(0));
   
 process.on('unhandledRejection', async (err) => {
-  logger.error({ err }, 'Unhandled Rejection');
+  logger.error({err}, 'Unhandled Rejection');
   if (process.env.SENTRY_DSN) await Sentry.captureException(err);
   shutdown(1);
 });
   
 process.on('uncaughtException', async (err) => {
-  logger.fatal({ err }, 'Uncaught Exception');
+  logger.fatal({err}, 'Uncaught Exception');
   if (process.env.SENTRY_DSN) await Sentry.captureException(err);
   shutdown(1);
 });  
