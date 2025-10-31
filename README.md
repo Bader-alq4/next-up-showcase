@@ -65,4 +65,3 @@ All sensitive keys have been replaced with placeholders. See `.env.example` for 
   It is not configured for local execution or live deployment.
 
 - This repo is for **showcase purposes only** — sensitive integrations like Stripe and Resend are disabled by default.  
-- The **frontend (React)** demo for this API is available separately here:  
