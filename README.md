@@ -58,3 +58,11 @@ All sensitive keys have been replaced with placeholders. See `.env.example` for 
 - Centralized error handling + Sentry integration  
 
 ---
+
+## Notes
+
+- This repository is for **code showcase and review purposes only**.  
+  It is not configured for local execution or live deployment.
+
+- This repo is for **showcase purposes only** — sensitive integrations like Stripe and Resend are disabled by default.  
+- The **frontend (React)** demo for this API is available separately here:  
