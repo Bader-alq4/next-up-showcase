@@ -1,9 +1,9 @@
 // controllers/seasonController.js
 // Responsible for managing seasons (create, read, update, delete).
 
-const pool = require('../config/db') // PostgreSQL pool for database queries
 const Sentry = require('@sentry/node') // Error tracking & performance monitoring
-const logger = require('../utils/logger') // Logger (Pino)
+const logger = require('../utils/logger') // logger (Pino)
+const Season = require('../models/season')
 
 // ──────────────────────────────────────────────────────────────
 // @desc    Get the currently active season
@@ -12,13 +12,10 @@ const logger = require('../utils/logger') // Logger (Pino)
 // ──────────────────────────────────────────────────────────────
 exports.getActiveSeason = async (req, res) => {
   try {
-    const {rows} = await pool.query(
-      'SELECT * FROM seasons WHERE is_active = true LIMIT 1'
-    )
-    const season = rows[0]
+    const season = await Season.getActiveSeason()
 
     if (!season) {
-      logger.info({event: 'season.not_found' }, 'No active season found')
+      logger.info({event: 'season.not_found'}, 'No active season found')
       return res.status(404).json({message: 'No active season found'})
     }
 
@@ -38,12 +35,10 @@ exports.getActiveSeason = async (req, res) => {
 // ──────────────────────────────────────────────────────────────
 exports.getAllSeasons = async (req, res) => {
   try {
-    const {rows} = await pool.query(
-      'SELECT id, name, year, start_date, end_date, is_active FROM seasons ORDER BY year DESC'
-    )
+    const seasons = await Season.getAllSeasons()
 
-    logger.info({event: 'season.list_fetched', count: rows.length}, 'All seasons fetched')
-    return res.status(200).json(rows)
+    logger.info({ event: 'season.list_fetched', count: seasons.length }, 'All seasons fetched')
+    return res.status(200).json(seasons)
   } catch (err) {
     logger.error({err}, 'Error fetching all seasons')
     Sentry.captureException(err)
@@ -57,22 +52,15 @@ exports.getAllSeasons = async (req, res) => {
 // @access  Private (Admin only)
 // ──────────────────────────────────────────────────────────────
 exports.createSeason = async (req, res) => {
-  const {name, year, start_date, end_date, is_active} = req.body
+  const {name} = req.body
 
-  // Simple validation
-  if (!name || !year) {
-    return res.status(400).json({message: 'Name and year are required.'})
+  if (!name) {
+    return res.status(400).json({message: 'Name is required.'})
   }
 
   try {
-    const {rows} = await pool.query(
-      `INSERT INTO seasons (name, year, start_date, end_date, is_active)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, name, year, start_date, end_date, is_active`,
-      [name.trim(), year, start_date || null, end_date || null, is_active || false]
-    )
+    const season = await Season.create({ name })
 
-    const season = rows[0]
     logger.info(
       {event: 'season.created', seasonId: season.id, user: req.user.id},
       'New season created by admin'
@@ -99,23 +87,12 @@ exports.updateSeason = async (req, res) => {
   const {name, year, start_date, end_date, is_active} = req.body
 
   try {
-    const {rows} = await pool.query(
-      `UPDATE seasons
-       SET name = COALESCE($1, name),
-           year = COALESCE($2, year),
-           start_date = COALESCE($3, start_date),
-           end_date = COALESCE($4, end_date),
-           is_active = COALESCE($5, is_active)
-       WHERE id = $6
-       RETURNING id, name, year, start_date, end_date, is_active`,
-      [name, year, start_date, end_date, is_active, id]
-    )
+    const updated = await Season.update(id, { name, year, start_date, end_date, is_active })
 
-    if (rows.length === 0) {
+    if (!updated) {
       return res.status(404).json({message: 'Season not found.'})
     }
 
-    const updated = rows[0]
     logger.info({event: 'season.updated', seasonId: id, user: req.user.id}, 'Season updated')
     return res.status(200).json({
       message: 'Season updated successfully',
@@ -137,9 +114,9 @@ exports.deleteSeason = async (req, res) => {
   const {id} = req.params
 
   try {
-    const result = await pool.query('DELETE FROM seasons WHERE id = $1', [id])
+    const deleted = await Season.delete(id)
 
-    if (result.rowCount === 0) {
+    if (!deleted) {
       return res.status(404).json({message: 'Season not found.'})
     }
 

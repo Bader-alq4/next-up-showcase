@@ -3,9 +3,9 @@
 // controllers/authController.js
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const pool = require('../config/db')
 const logger = require('../utils/logger')
 const Sentry = require('@sentry/node')
+const user = require('../models/user')
 
 // Helper functions for signing tokens
 const signAccessToken = (payload) =>
@@ -34,23 +34,16 @@ exports.registerUser = async (req, res) => {
 
   try {
     // Check duplicate email
-    const existing = await pool.query('SELECT id FROM users WHERE email = $1', [email])
-    if (existing.rowCount > 0) {
-      return res.status(409).json({message: 'Email already in use.'})
+    const existing = await User.findUserByEmail(email)
+    if (existing) {
+      return res.status(409).json({ message: 'Email already in use.' })
     }
-    // Hash password and create user
-    const hashed = await bcrypt.hash(password, 10)
-    const {rows} = await pool.query(
-      `INSERT INTO users (name, email, password)
-       VALUES ($1, $2, $3)
-       RETURNING id, name, email, is_admin`,
-      [name.trim(), email.toLowerCase().trim(), hashed]
-    )
-    const user = rows[0]
+
+    // Create user through model (handles hashing internally)
+    const user = await User.createUser(name, email, password)
 
     // Generate tokens
     const accessToken = signAccessToken({id: user.id, email: user.email, is_admin: user.is_admin})
-    const refreshToken = signRefreshToken({id: user.id})
 
     logger.info({user: user.id}, 'User registered successfully')
     return res.status(201).json({
@@ -77,14 +70,10 @@ exports.loginUser = async (req, res) => {
   }
 
   try {
-    const {rows} = await pool.query(
-      'SELECT id, name, email, password, is_admin FROM users WHERE email = $1',
-      [email.toLowerCase().trim()]
-    )
-    const user = rows[0]
+    const user = await User.findUserByEmail(email)
     if (!user) {
-      return res.status(401).json({message: 'Invalid credentials.'})
-    } 
+      return res.status(401).json({ message: 'Invalid credentials.' })
+    }
 
     const valid = await bcrypt.compare(password, user.password)
     if (!valid) {
