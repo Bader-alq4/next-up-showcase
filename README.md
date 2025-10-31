@@ -34,7 +34,7 @@ All sensitive keys have been replaced with placeholders. See `.env.example` for 
 
 ---
 
-## 🧩 Features Included in This Showcase
+## Features Included in This Showcase
 
 | Category | Features |
 |-----------|-----------|
