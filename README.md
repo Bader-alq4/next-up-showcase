@@ -14,7 +14,7 @@ This repository is a **backend showcase** for the real-world project **NextUp Ho
 
 The frontend and production version are separate, but this repository demonstrates backend design, authentication, payment, and email workflows.”
 
-This repo is not the full production app; it’s a **cleaned and documented showcase** of how I structure and write backend code for professional APIs.
+This repo is a **cleaned and documented showcase** of how I structure and write backend code for professional APIs. This repo is not the full production app.
 
 ---
 
