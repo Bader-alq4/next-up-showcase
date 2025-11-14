@@ -12,7 +12,7 @@
 
 This repository is a **backend showcase** for the real-world project **NextUp Hoops**, a tryout and registration management platform for youth basketball organizations.
 
-The frontend and production version are separate, but this repository demonstrates backend design, authentication, payment, and email workflows.”
+The frontend of the production Next Up Hoops platform is built in a separate private repository, but the video demo above shows the full interface.
 
 This repo is a **cleaned and documented showcase** of how I structure and write backend code for professional APIs. This repo is not the full production app.
 
