@@ -1,5 +1,7 @@
 # NextUp Hoops API (Showcase)
 
+A **production-style backend API** for a youth sports registration platform, showcasing authentication, payments, and secure system design.
+
 ---
 
 ## Live Demo
@@ -10,11 +12,13 @@
 
 ---
 
-This repository is a **backend showcase** for the real-world project **NextUp Hoops**, a tryout and registration management platform for youth basketball organizations.
+## About This Repository
 
-The frontend of the production Next Up Hoops platform is built in a separate private repository, but the video demo above shows the full interface.
+This repository is a **sanitized backend showcase** for the real-world project **NextUp Hoops**, a tryout and registration management platform for youth basketball organizations.
 
-This repo is a **cleaned and documented showcase** of how I structure and write backend code for professional APIs. This repo is not the full production app.
+The production frontend is maintained in a separate private repository; the **full system behavior is demonstrated in the video above**.
+
+This repo focuses on **backend architecture, API design, security, and integrations**, and is intentionally cleaned for public review. It is **not** the full production application.
 
 ---
 
@@ -73,7 +77,6 @@ All sensitive keys have been replaced with placeholders. See `.env.example` for 
 
 ## Notes
 
-- This repository is for **code showcase and review purposes only**.  
-  It is not configured for local execution or live deployment.
-
-- This repo is for **showcase purposes only**. Sensitive integrations like Stripe and Resend are disabled by default.  
+- This repository is provided **for code showcase and review purposes only**.  
+- It is not configured for direct local execution or live deployment.  
+- Sensitive integrations (Stripe, Resend) are disabled by default.
