@@ -1,7 +1,6 @@
 # NextUp Hoops API (Showcase)
 
-A **production-style backend API** for a youth sports registration platform, showcasing authentication, payments, and secure system design.
-
+Designed and implemented the backend architecture and APIs for this system end-to-end, integrating authentication, payments, email workflows, and admin tooling
 ---
 
 ## Live Demo
