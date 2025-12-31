@@ -5,12 +5,9 @@
 
 ## Live Demo
 
-<a href="https://www.loom.com/share/a33a5d323d4c44009416b2ebdadb3789" target="_blank" rel="noopener noreferrer">
-  <strong>Watch the 2-minute demo on Loom</strong>
-</a>
+[**Watch the 2-minute demo on Loom**](https://www.loom.com/share/a33a5d323d4c44009416b2ebdadb3789)
 
 > _This video showcases account creation, admin login, payment processing via Stripe, and email notifications via Resend._
-
 ---
 
 ## About This Repository
