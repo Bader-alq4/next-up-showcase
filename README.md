@@ -1,6 +1,6 @@
 # NextUp Hoops API (Showcase)
 
-*Designed and implemented the backend architecture and APIs for this system end-to-end, integrating authentication, payments, email workflows, and admin tooling.*
+> Designed and implemented the backend architecture and APIs for this system end-to-end, integrating authentication, payments, email workflows, and admin tooling.
 ---
 
 ## Live Demo
