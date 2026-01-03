@@ -3,6 +3,11 @@
 > Designed and implemented the backend architecture and APIs for this system end-to-end, integrating authentication, payments, email workflows, and admin tooling.
 ---
 
+## Live Platform & Frontend
+
+- **Live Website:** https://www.nextuphoops.ca  
+- **Frontend Repository:** https://github.com/Bader-alq4/nxt_up_frontend  
+
 ## Live Demo
 
 [**Watch the 2-minute demo on Loom**](https://www.loom.com/share/a33a5d323d4c44009416b2ebdadb3789)
